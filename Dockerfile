@@ -11,7 +11,7 @@ ENV LANGUAGE en_US:en
 ENV TERM screen
 
 # change mirror
-RUN echo "[global] \
+RUN mkdir ~/.pip && echo "[global] \
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple" > ~/.pip/pip.conf
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bac \

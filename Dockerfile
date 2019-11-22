@@ -11,20 +11,20 @@ ENV LANGUAGE en_US:en
 ENV TERM screen
 
 # change mirror
-RUN echo "[global]
+RUN echo "[global] \
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple" > ~/.pip/pip.conf
 
 RUN mv /etc/apt/sources.list /etc/apt/sources.list.bac \
-&&echo "
-deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+&&echo "\
+deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse\
+deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\
+deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse\
+deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse\
+deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse\
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse\
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse\
+deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse\
 deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" > /etc/apt/sources.list
 
 # So we can source (see http://goo.gl/oBPi5G)

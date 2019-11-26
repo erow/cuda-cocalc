@@ -14,26 +14,14 @@ ENV TERM screen
 RUN mkdir ~/.pip && echo "[global] \
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple" > ~/.pip/pip.conf
 
-RUN mv /etc/apt/sources.list /etc/apt/sources.list.bac \
-&&echo "\
-deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse\
-deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\
-deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse\
-deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse\
-deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse\
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse\
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse\
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse\
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse\
-deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse" > /etc/apt/sources.list
+RUN apt update
 
 # So we can source (see http://goo.gl/oBPi5G)
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Ubuntu software that are used by CoCalc (latex, pandoc, sage, jupyter)
 RUN \
-     apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y \
        software-properties-common \
        texlive \
        texlive-latex-extra \
@@ -44,8 +32,7 @@ RUN \
        liblog-log4perl-perl
 
 RUN \
-    apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+     DEBIAN_FRONTEND=noninteractive apt-get install -y \
        tmux \
        flex \
        bison \
@@ -71,8 +58,7 @@ RUN \
        tidy
 
  RUN \
-     apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y \
        vim \
        bup \
        inetutils-ping \
@@ -90,8 +76,7 @@ RUN \
        automake
 
 RUN \
-   apt-get update \
-&& DEBIAN_FRONTEND=noninteractive apt-get install -y \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y \
        gfortran \
        dpkg-dev \
        libssl-dev \
@@ -167,8 +152,7 @@ RUN \
 # Install all aspell dictionaries, so that spell check will work in all languages.  This is
 # used by cocalc's spell checkers (for editors).  This takes about 80MB, which is well worth it.
 RUN \
-     apt-get update \
-  && apt-get install -y aspell-*
+      apt-get install -y aspell-*
 
 # Install Node.js and LATEST version of npm
 RUN \
@@ -250,18 +234,15 @@ COPY bashrc /root/.bashrc
 ## Xpra backend support -- we have to use the debs from xpra.org,
 ## Since the official distro packages are ancient.
 RUN \
-     apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb websockify curl \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y xvfb websockify curl \
   && curl https://xpra.org/gpg.asc | apt-key add - \
   && echo "deb http://xpra.org/ bionic main" > /etc/apt/sources.list.d/xpra.list \
-  && apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y xpra
+  &&  DEBIAN_FRONTEND=noninteractive apt-get install -y xpra
 
 ## X11 apps to make x11 support useful.
 ## Will move this up in Dockerfile once stable.
 RUN \
-     apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y x11-apps dbus-x11 gnome-terminal \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y x11-apps dbus-x11 gnome-terminal \
      vim-gtk lyx libreoffice inkscape gimp chromium-browser texstudio evince mesa-utils \
      xdotool xclip x11-xkb-utils
 
@@ -271,8 +252,7 @@ RUN \
   && install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/ \
   && sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list' \
   && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y apt-transport-https \
-  && sudo apt-get update \
-  && DEBIAN_FRONTEND=noninteractive sudo apt-get install -y code
+  && sudo  DEBIAN_FRONTEND=noninteractive sudo apt-get install -y code
 
 # RStudio
 RUN \
